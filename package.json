@@ -1,0 +1,25 @@
+{
+    "name": "node-basic-authentication-api",
+    "version": "1.0.0",
+    "description": "NodeJS Basic HTTP Authentication API",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cornflourblue/node-basic-authentication-api.git"
+    },
+    "scripts": {
+        "start": "nodemon ./server.js",
+        "deploy:dev": "sls deploy --conceal -v -s dev"
+    },
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "cors": "^2.8.4",
+        "express": "^4.16.3",
+        "rootpath": "^0.1.2",
+        "serverless-http": "^2.3.0"
+    },
+    "devDependencies": {
+        "nodemon": "^1.17.5",
+        "serverless": "^1.53.0"
+    }
+}
