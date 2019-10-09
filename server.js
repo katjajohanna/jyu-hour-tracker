@@ -22,8 +22,8 @@ app.use('/summary', require('./summary/summary.controller'))
 // global error handler
 app.use(errorHandler)
 
-// start server
-const port = process.env.NODE_ENV === 'prod' ? 80 : 4000
+// To run on localhost, uncomment these lines:
+// const port = process.env.NODE_ENV === 'prod' ? 80 : 4000
 // const server = app.listen(port, function () {
 //     console.log('Server listening on port ' + port)
 // })

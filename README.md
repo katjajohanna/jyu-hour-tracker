@@ -6,7 +6,12 @@ Users must authenticate by basic authentication.
 
 This is Demo 4 for course TIES4560 SOA and Cloud Computing by Jyväskylä university at fall 2019.
 
-## Installation
+The project is running in AWS:
+https://lhhg79d7e5.execute-api.eu-central-1.amazonaws.com/dev/
+
+## Installation on localhost
+
+To run this project on localhost, first uncomment lines on server.js. Then follow instructions:
 
 1. Install Node https://nodejs.org/
 2. Go to project folder
@@ -16,155 +21,160 @@ This is Demo 4 for course TIES4560 SOA and Cloud Computing by Jyväskylä univer
 ## Users
 
 You may use these username - password pairs:
-gandalf - gray
-bilbo - baggins
-eowyn - rohan
-legolas - greenleaf
-john - ronald
+* gandalf - gray
+* bilbo - baggins
+* eowyn - rohan
+* legolas - greenleaf
+* john - ronald
 
 The last one, john, is an admin user. Others are members.
 
 ## Sample usage
 
-This demonstrates authentication and authorisation.
+**This demonstrates authentication and authorisation.**
 
-`GET /hours`
-=> Missing Authorization Header
+*First, do some call*
+* `GET /hours`
+* => Missing Authorization Header
 
-Add Basic Authentication header with invalid username and password, say "user" and "pass"
-`GET /hours`
-=> Invalid Authentication Credentials
+*Then, add Basic Authentication header with invalid username and password, say "user" and "pass"*
+* `GET /hours`
+* => Invalid Authentication Credentials
 
-User correct credentials, for example username: "gandalf", password: "gray"
-`GET /hours`
-=> List of users' hours
+*User correct credentials, for example username: "gandalf", password: "gray"*
+* `GET /hours`
+* => List of users' hours
 
-Get summary with above credentials
-`GET summary`
-=> No access
+*Get summary with the same credentials as in last call*
+* `GET summary`
+* => No access
 
-Change credentials for admin - username: "john", password: "ronald"
-`GET summary`
-=> Summary of all hours
+*Change credentials for admin - username: "john", password: "ronald"*
+* `GET summary`
+* => Summary of all hours
 
-Update hours for user by admin
-`PUT hours/2`
+*Update hours for user by admin*
+* `PUT hours/2`
+* Body:
+```
 {
     "userId": 1,
 	"hours": 3,
 }
+```
 
-Add new user
-`POST /users/register`
-Body:
+*Add new user*
+* `POST /users/register`
+* Body:
+```
 {
     "username": "merri",
     "password": "brandybuk",
     "firstName": "Meriadoc",
     "lastName": "Brandybuk"
 }
+```
 
-Change credentials for new user and add new hour - username: "merri", password: "brandybuk"
-`POST hours`
-Body:
+*Change credentials for new user and add new hour - username: "merri", password: "brandybuk"*
+* `POST hours`
+* Body:
+```
 {
 	"projectId": 2,
 	"hours": 5,
 	"description": "Bake the cake"
 }
+```
 
-Change credentials for admin user and get summary - username: "john", password: "ronald"
-`GET summary`
-=> Summary of all hours
+*Change credentials for admin user and get summary - username: "john", password: "ronald"*
+* `GET summary`
+* => Summary of all hours
 
 ## All endpoints
 
-`POST /users/register`
-Body:
+* `POST /users/register`
+* Body:
+```
 {
     "username": "merri",
     "password": "brandybuk",
     "firstName": "Meriadoc",
     "lastName": "Brandybuk"
 }
-Creates new user
+```
+* => Creates new user
 
 ### For members
 
-`GET hours`
-Returns user's hours
+* `GET hours` => Returns user's hours
 
-`GET hours?minLength=1&maxLength=2.5`
-Returns user's hours limited with hour length
+* `GET hours?minLength=1&maxLength=2.5` => Returns user's hours limited with hour length
 
-`POST hours`
-Body:
-{
-	"projectId": 2,
-	"hours": 1,
-	"description": "Make sure someone baked the cake"
-}
-Saves new hour for the user
+* `POST hours` => Saves new hour for the user
+	* Body:
+	```
+	{
+		"projectId": 2,
+		"hours": 1,
+		"description": "Make sure someone baked the cake"
+	}
+	```
 
-`PUT hours/{id}`
-{
-	"hours": 3,
-}
-Updates given hour if it is user's own hour
-Returns 404 if there is no hour with given ID
-Returns 403 if the hour does not belong to the user
+* `PUT hours/{id}` => Updates given hour if it is user's own hour
+	* Body:
+	```
+	{
+		"hours": 3,
+	}
+	```
+	* Returns 404 if there is no hour with given ID
+	* Returns 403 if the hour does not belong to the user
 
-`DELETE hours/{id}`
-Deletes given hour if it is user's own hour
-Returns 404 if there is no hour with given ID
-Returns 403 if the hour does not belong to the user
+* `DELETE hours/{id}` => Deletes given hour if it is user's own hour
+	* Returns 404 if there is no hour with given ID
+	* Returns 403 if the hour does not belong to the user
 
-`GET hours/{id}/history`
-Returns change history for given hour
+* `GET hours/{id}/history` => Returns change history for given hour
 
-`GET hours/{id}/history/{id}`
-Returns change the specific history entity for given hour
+* `GET hours/{id}/history/{id}` => Returns change the specific history entity for given hour
 
 ### For admin
 
-`GET summary`
-Returns nicely formatted summary of all hours
+* `GET summary` => Returns nicely formatted summary of all hours
 
-`GET hours`
-Returns all users' hours
+* `GET hours` => Returns all users' hours
 
-`GET hours?minLength=1&maxLength=2.5`
-Returns all users' hours limited with hour length
+* `GET hours?minLength=1&maxLength=2.5` => Returns all users' hours limited with hour length
 
-`POST hours`
-Body:
-{
-    "userId": 2,
-	"projectId": 2,
-	"hours": 1,
-	"description": "Make sure someone baked the cake"
-}
-Saves new hour for the user. Notice that the user must be specified in the body.
+* `POST hours` => Saves new hour for the user. Notice that the user must be specified in the body.
+	* Body:
+	```
+	{
+		"userId": 2,
+		"projectId": 2,
+		"hours": 1,
+		"description": "Make sure someone baked the cake"
+	}
+	```
 
-`PUT hours/{id}`
-{
-    "userId": 2,
-	"hours": 3,
-}
-Updates given hour if it is user's own hour. Notice that the user id must be specified in the body.
-Returns 404 if there is no hour with given ID
-Returns 403 if the hour does not belong to the user
+* `PUT hours/{id}` => Updates given hour if it is user's own hour. Notice that the user id must be specified in the body.
+	* Body:
+	```
+	{
+		"userId": 2,
+		"hours": 3,
+	}
+	```
+	* Returns 404 if there is no hour with given ID
+	* Returns 403 if the hour does not belong to the user
 
-`DELETE hours/{id}`
-Deletes given hour if it is user's own hour. Notice that the user id must be specified in the body.
-Returns 404 if there is no hour with given ID
-Returns 403 if the hour does not belong to the user
+* `DELETE hours/{id}` => Deletes given hour if it is user's own hour. Notice that the user id must be specified in the body.
+	* Returns 404 if there is no hour with given ID
+	* Returns 403 if the hour does not belong to the user
 
-`GET hours/{id}/history`
-Returns change history for given hour
+* `GET hours/{id}/history` => Returns change history for given hour
 
-`GET hours/{id}/history/{id}`
-Returns change the specific history entity for given hour
+* `GET hours/{id}/history/{id}` => Returns change the specific history entity for given hour
 
 ## Thanks to
 
@@ -175,4 +185,3 @@ For documentation and instructions check out http://jasonwatmore.com/post/2018/0
 ## Author
 
 Johanna Kaihlavirta
-johanna.k.kaihlavirta@student.jyu.fi
