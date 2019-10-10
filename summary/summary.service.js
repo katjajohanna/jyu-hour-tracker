@@ -7,28 +7,6 @@ module.exports = {
     getSummary
 }
 
-foo = {
-    id: 1,
-    name: 'Pick up eggs',
-    members: ['Anne Shirley', 'Gilbert Blythe'],
-    hoursTotal: 1,
-    listing: [
-        {
-            userId: 1,
-            name: 'Anne Shirley',
-            hoursTotal: 1,
-            hoursDetailed: [
-                {
-                    at: '2019-10-05 10:00:14',
-                    hours: 1,
-                    description: 'foo'
-                }
-            ]
-        }
-    ]
-}
-bar = { id: 1, at: '2019-10-05 10:00:14', userId: 1, projectId: 1, hours: 1.5, description: 'Got eggs for breakfast' }
-
 async function getSummary() {
     return projects.map(project => {
         const projectHours = hours.filter(hour => hour.projectId == project.id)
