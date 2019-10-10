@@ -6,10 +6,13 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const basicAuth = require('_helpers/basic-auth')
 const errorHandler = require('_helpers/error-handler')
+const logger = require('_helpers/logger')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
+
+app.use(logger)
 
 // use basic HTTP auth to secure the api
 app.use(basicAuth)
@@ -23,9 +26,9 @@ app.use('/summary', require('./summary/summary.controller'))
 app.use(errorHandler)
 
 // To run on localhost, uncomment these lines:
-// const port = process.env.NODE_ENV === 'prod' ? 80 : 4000
-// const server = app.listen(port, function () {
-//     console.log('Server listening on port ' + port)
-// })
+const port = process.env.NODE_ENV === 'prod' ? 80 : 4000
+const server = app.listen(port, function () {
+    console.log('Server listening on port ' + port)
+})
 
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);
