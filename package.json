@@ -20,6 +20,6 @@
     },
     "devDependencies": {
         "nodemon": "^1.17.5",
-        "serverless": "^1.53.0"
+        "serverless": "^3.25.1"
     }
 }
